@@ -1,0 +1,63 @@
+# mri related files 
+*.nrrd 
+*.nii
+*.nii.gz 
+*.vtk
+*.dat 
+*.mat
+
+# general compression files
+*.zip
+*.pkl
+*.npy
+*.npz
+*.gz
+*.tar
+
+# images 
+*.png
+*.jpg
+*.jpeg 
+
+# training 
+*.h5 
+*.hdf5
+*.ckpt 
+*.meta
+*.index 
+*.ckpt.data-00000-of-00001
+checkpoint
+*.data-?????-of-?????
+*trained_weights*
+*.pt
+
+# temp files 
+*~
+
+# pycache 
+*__pycache__*
+*.pyc
+
+# jupyter 
+*.ipynb_checkpoints*
+.ipynb_checkpoints
+
+#vscode 
+*.vscode
+
+# tabular data 
+*.csv
+
+# C/C++ related 
+build/
+
+# std out/err
+*.out 
+*.err
+
+# Temporary OS files
+.DS_Store
+
+# specific to this repo 
+docker_v1/simple_copy/libs
+

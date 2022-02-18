@@ -1,0 +1,9 @@
+# https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1
+
+FROM nvidia/cuda:10.2-base 
+CMD nvidia-smi 
+
+FROM nvidia/cuda:10.2-base
+CMD nvidia-smi
+FROM nvidia/cuda:10.2-base
+CMD nvidia-smi
