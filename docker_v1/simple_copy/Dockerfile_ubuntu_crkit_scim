@@ -1,0 +1,40 @@
+FROM centos6_w_vtk_itk_nlopt
+    
+
+ENV ITK_INSTALL_DIR=/opt/itk/
+ENV ITK_DIR=${ITK_INSTALL_DIR}/lib/cmake/ITK-4.13/
+
+ENV VTK_INSTALL_DIR=/opt/vtk/
+ENV VTK_DIR=${VTK_INSTALL_DIR}/lib/cmake/vtk-9.0/    
+
+ENV NLOPT_INSTALL_DIR=/opt/nlopt
+ENV NLOPT_DIR=${NLOPT_INSTALL_DIR}/lib/cmake/nlopt/
+
+ENV LD_LIBRARY_PATH=${VTK_INSTALL_DIR}/lib:${ITK_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}
+
+
+ENV GSL=/home/ch155417/moti/gsl/build/lib/libgsl.a
+ENV GSLCBLAS=/home/ch155417/moti/gsl/build/lib/libgslcblas.a
+ENV GSL_INCLUDE_DIR=/home/ch155417/moti/gsl/build/include
+ENV ITKNLOPTOPTIMIZERS_INCLUDE_DIR=/home/ch169807/moti/itkNLOPTOptimizers/src
+ENV ITK_DIR=/opt/x86_64/pkgs/itk/3.20.0/gcc-release/lib/InsightToolkit/
+ENV ITK_DIR=/opt/x86_64/pkgs/itk/4.3.1/gcc-release/lib/cmake/ITK-4.3/
+ENV NLOPT=/home/ch155417/moti/nlopt-2.2/bin/lib/libnlopt.a
+ENV NLOPT_DIR=/home/ch155417/moti/nlopt-2.2
+ENV TCLAP_INCLUDE_DIR=/home/ch169807/Software/tclap-1.2.1/include
+ENV itkNLOPTOptimizersLib=/home/ch169807/moti/itkNLOPTOptimizers/build/libITKNLOPTOptimizers.a
+ENV VTK_DIR=/opt/x86_64/pkgs/vtk/current/lib/cmake/vtk-6.1                                                                                                                                                                 
+
+RUN cd /scim && rm -rf build && mkdir build && cd build && \
+    cmake -DGSL_INCLUDE_DIR=/home/ch155417/moti/gsl/build/lib/libgsl.a \
+    -DGSLCBLAS= \
+    -DGSL_INCLUDE_DIR= \
+    -DITKNLOPTOPTIMIZERS_INCLUDE_DIR= \
+    -DITK_DIR=/opt/itk/ \
+    -DNLOPT= \
+    -DNLOPT_DIR:PATH="${NLOPT_DIR}" \
+    -DTCLAP_INCLUDE_DIR:PATH= \
+    -DitkNLOPTOptimizersLib:PATH= \
+    
+    -DITK_DIR:PATH="${ITK_DIR}" \
+    -DVTK_DIR:PATH="${VTK_DIR}"

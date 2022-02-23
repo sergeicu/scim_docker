@@ -1,0 +1,36 @@
+/usr/include/python3.4m/
+
+
+
+-- Found PythonLibs: /usr/lib64/libpython3.4m.so.1.0  
+
+
+ls /usr/include/python3.4m/
+
+
+$ echo $(ldd $PYTHON | grep $PREFIX | grep 'libpython.*\.so' | cut -d' ' -f3)
+/usr/lib64/libpython3.4m.so.1.0
+
+
+
+
+$ echo $($PYTHON -c "from distutils import sysconfig; print(sysconfig.get_python_inc())")
+/usr/include/python3.4m
+
+
+
+
+GSL=/home/ch155417/moti/gsl/build/lib/libgsl.a
+GSLCBLAS=/home/ch155417/moti/gsl/build/lib/libgslcblas.a
+GSL_INCLUDE_DIR=/home/ch155417/moti/gsl/build/include
+ITKNLOPTOPTIMIZERS_INCLUDE_DIR=/home/ch169807/moti/itkNLOPTOptimizers/src
+ITK_DIR=/opt/x86_64/pkgs/itk/3.20.0/gcc-release/lib/InsightToolkit/
+ITK_DIR=/opt/x86_64/pkgs/itk/4.3.1/gcc-release/lib/cmake/ITK-4.3/
+NLOPT=/home/ch155417/moti/nlopt-2.2/bin/lib/libnlopt.a
+NLOPT_DIR=/home/ch155417/moti/nlopt-2.2
+TCLAP_INCLUDE_DIR=/home/ch169807/Software/tclap-1.2.1/include
+itkNLOPTOptimizersLib=/home/ch169807/moti/itkNLOPTOptimizers/build/libITKNLOPTOptimizers.a
+VTK_DIR=/opt/x86_64/pkgs/vtk/current/lib/cmake/vtk-6.1        
+
+
+ITK_DIR=/opt/itk/lib/InsightToolkit/
