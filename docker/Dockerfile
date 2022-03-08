@@ -120,11 +120,11 @@ ENV VTK_INSTALL_DIR=/opt/vtk
 ENV ITK_INSTALL_DIR=/opt/itk
 ENV LD_LIBRARY_PATH=${VTK_INSTALL_DIR}/lib:${ITK_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}
 
-docker run --rm -e LD_LIBRARY_PATH=<CORRECT_PATH> docker_image <command_input_args>
+#docker run --rm -e LD_LIBRARY_PATH=<CORRECT_PATH> docker_image <command_input_args>
 
-docker run --rm -it docker_image /bin/bash 
-$ LD_LIBRARY_PATH=<CORRECT_PATH>
-$ command_rags...
+#docker run --rm -it docker_image /bin/bash 
+#$ LD_LIBRARY_PATH=<CORRECT_PATH>
+#$ command_rags...
 
 
 # Add binaries to path 

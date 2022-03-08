@@ -1,9 +1,0 @@
-0	/data/b0_averaged.vtk
-20	/data/b20_averaged.vtk
-50	/data/b50_averaged.vtk
-100	/data/b100_averaged.vtk
-200	/data/b200_averaged.vtk
-400	/data/b400_averaged.vtk
-600	/data/b600_averaged.vtk
-800	/data/b800_averaged.vtk
-
