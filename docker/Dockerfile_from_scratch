@@ -1,0 +1,211 @@
+FROM centos:centos6.10 AS scim_base
+
+LABEL maintainer="serge.vasylechko@childrens.harvard.edu"
+LABEL vendor="QUIN"
+
+# add yum repos and update to correct paths  - https://www.getpagespeed.com/server-setup/how-to-fix-yum-after-centos-6-went-eol
+RUN curl https://www.getpagespeed.com/files/centos6-eol.repo --output /etc/yum.repos.d/CentOS-Base.repo && \
+    curl https://www.getpagespeed.com/files/centos6-epel-eol.repo --output /etc/yum.repos.d/epel.repo && \
+    curl https://www.getpagespeed.com/files/centos6-scl-eol.repo --output /etc/yum.repos.d/CentOS-SCLo-scl.repo && \
+    curl https://www.getpagespeed.com/files/centos6-scl-rh-eol.repo --output /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo && \
+    sed -i 's%^mirrorlist%#mirrorlist%g' /etc/yum.repos.d/* && \
+    sed -i 's%#baseurl=http://mirror.centos.org%baseurl=https://vault.centos.org%g' /etc/yum.repos.d/* && \
+    sed -i 's,http://vault.centos.org,https://vault.centos.org,g' /etc/yum.repos.d/* 
+
+############################
+# Install yum dependencies 
+############################
+
+# NB these yum tools may not all be required. 
+# The list was inherited from CRKit Dockerfile, which was targeted for a ubuntu20.04 build. 
+# We include them here for the sake of completness (and to shorten debug time)
+# Also note that the final docker image is significantly reduced in size as we carry over only the final SCIM binaries. 
+# Therefore most of these yum tools are only used in the intermediate build process. 
+# For reference: CRKit Dockefile (private repo): https://github.com/ComputationalRadiology/crkit/blob/main/Dockerfile
+
+# update and install basic build tools (gcc, gcc-c, make)
+RUN yum update -y && \
+    yum groupinstall -y 'Development Tools'
+
+# install epel release and yum utils. 
+RUN yum install -y yum-utils \
+                    epel-release
+
+# install dependencies 
+RUN yum install -y zlib-devel \
+                    ncurses-devel \
+                    gdbm-devel \
+                    readline-devel \
+                    libffi-devel \
+                    wget \
+                    git \
+                    perl \
+                    gperf \
+                    bison \
+                    flex \
+                    unzip \
+                    cmake \
+                    gflags-devel \
+                    eigen3-devel \
+                    suiteparse \
+                    tbb-devel \
+                    fontconfig-devel \
+                    lz4-devel \
+                    xz-lzma-compat \
+                    netcdf-devel \
+                    libogg-devel \
+                    libtheora-devel \
+                    libpng-devel \                   
+                    libtiff-devel \
+                    jsoncpp-devel \
+                    compat-expat1 \
+                    glew-devel \
+                    hdf5-devel \
+                    qt5-qtx11extras-devel \
+                    qt5-qtbase \
+                    qt5-qttools \
+                    libXt-devel \
+                    libxml2-devel \
+                    sqlite-devel
+                    
+# install dependencies whose versions do not match to exact libs required by crkit docker (for ubuntu20.04 deployment)
+RUN yum install -y nss-devel \
+                    openssl-devel \
+                    freetype-devel \
+                    qt5-qtbase-devel \
+                    qt5-qtbase-gui \
+                    atlas-devel \                                        
+                    openjpeg-devel openjpeg-libs libjpeg-turbo-devel
+
+# install python dependencies 
+RUN yum install -y --nogpgcheck python34 python34-devel \
+                                rh-python34-python-devel \
+                                rh-python34-python-pip
+
+# install xcb tools (versions do not match to crkit docker for ubuntu20.04)
+RUN yum install -y libxcb-devel libXinerama
+
+# install libuuid (required for itk / vtk)
+RUN yum install -y libuuid-devel
+
+# clean yum cache (may be redundant as we used multi-layer RUN processes) 
+RUN yum makecache fast && yum clean all 
+
+####################
+# NOTES
+####################
+
+# For future reference only -> 
+# Yum tools listed below were originally listed in the CRKit Dockerfile for ubuntu20.04, 
+# however they were not ultimately used for SCIM build. 
+# Notably, they were not directly available for centos6, therefore we built without them (successfully) 
+# 
+# RPMs below can be downloaded directly from the links provided using wget. Note all these are for centos7
+
+# -- libgoogle-glog-dev >> # not found - only available with centos7 - https://centos.pkgs.org/7/epel-x86_64/glog-0.3.3-8.el7.x86_64.rpm.html
+# -- libproj-dev >>  # not found - only available with centos7 - https://centos.pkgs.org/7/epel-x86_64/proj-4.8.0-4.el7.x86_64.rpm.html, 
+# -- libdouble-conversion-dev # not found - only available with centos7 - https://centos.pkgs.org/7/epel-x86_64/double-conversion-2.0.1-3.el7.x86_64.rpm.html
+# -- libnetcdf-cxx-legacy-dev # not found - only available with centos7 - https://centos.pkgs.org/7/epel-x86_64/netcdf-cxx-4.2-8.el7.x86_64.rpm.html
+# --libswscale-dev # not found - only available with centos7 - https://centos.pkgs.org/7/cheese-x86_64/libswscale-devel-2.6.2-2.x86_64.rpm.html
+
+
+###############
+# Copy dependencies as pre-compiled binaries: vtk, itk, tclap, nlopt, gsl, etc
+###############
+
+# Why not build from source? 
+    # Following multiple attempts to build a working vtk from source on centos6 (nearly extinct), amongst others, 
+    # we felt it may be faster / easier to reuse precompiled binaries directly. 
+    # Remember that our end goal was to compile SCIM from source, and not its dependencies. 
+    # All of these binaries are available inside of this docker image, as well as in the relevant github repo 
+    # In the worst case scenario - you can build them from source. See versions of each dependency below
+
+# add vtk and itk 
+RUN mkdir -p /opt/x86_64/pkgs/itk/3.20.0 /opt/x86_64/pkgs/vtk/current
+COPY ./libs/itk/3.20.0 /opt/x86_64/pkgs/itk/3.20.0
+COPY ./libs/vtk/6.1.0 /opt/x86_64/pkgs/vtk/current
+
+
+
+# add nlopt, tclap, gsl
+RUN mkdir -p /home/ch155417/moti/gsl/ /home/ch169807/moti/itkNLOPTOptimizers/ /home/ch155417/moti/nlopt-2.2/ /home/ch169807/Software/tclap-1.2.1 
+COPY ./libs/itkNLOPTOptimizers /home/ch169807/moti/itkNLOPTOptimizers
+COPY ./libs/tclap-1.2.1 /home/ch169807/Software/tclap-1.2.1
+COPY ./libs/gsl /home/ch155417/moti/gsl
+
+###############
+# Add scim code
+###############
+
+# add scim code 
+RUN mkdir -p /scim
+COPY ./scim /scim
+
+
+###############
+# Compile scim
+###############
+
+# Set dependency paths 
+ENV GSL=/home/ch155417/moti/gsl/build/lib/libgsl.a
+ENV GSLCBLAS=/home/ch155417/moti/gsl/build/lib/libgslcblas.a
+ENV GSL_INCLUDE_DIR=/home/ch155417/moti/gsl/build/include
+ENV ITKNLOPTOPTIMIZERS_INCLUDE_DIR=/home/ch169807/moti/itkNLOPTOptimizers/src
+ENV NLOPT=/home/ch155417/moti/nlopt-2.2/bin/lib/libnlopt.a
+ENV NLOPT_DIR=/home/ch155417/moti/nlopt-2.2
+ENV TCLAP_INCLUDE_DIR=/home/ch169807/Software/tclap-1.2.1/include
+ENV itkNLOPTOptimizersLib=/home/ch169807/moti/itkNLOPTOptimizers/build/libITKNLOPTOptimizers.a
+ENV VTK_DIR=/opt/x86_64/pkgs/vtk/current/lib/cmake/vtk-6.1                                                                                             
+ENV ITK_DIR=/opt/x86_64/pkgs/itk/3.20.0/gcc-release/lib/InsightToolkit/
+
+# Compile 
+RUN mkdir -p /scim/build && cd /scim/build && \
+    cmake -DGSL=${GSL} -DGSL_INCLUDE_DIR=${GSL} \
+    -DGSLCBLAS=${GSLCBLAS} \
+    -DGSL_INCLUDE_DIR=${GSL_INCLUDE_DIR} \
+    -DITKNLOPTOPTIMIZERS_INCLUDE_DIR=${ITKNLOPTOPTIMIZERS_INCLUDE_DIR} \
+    -DITK_DIR=${ITK_DIR} \
+    -DNLOPT=${NLOPT} \
+    -DNLOPT_DIR:PATH="${NLOPT_DIR}" \
+    -DTCLAP_INCLUDE_DIR:PATH=$TCLAP_INCLUDE_DIR \
+    -DitkNLOPTOptimizersLib:PATH=$itkNLOPTOptimizersLib \
+    -DVTK_DIR:PATH="${VTK_DIR}" .. && \
+    make -j 4 && make install 
+
+###############
+# Compress the image
+###############
+
+# Summary: we copy only the compiled scim binaries, and environment dependencies into the final image
+
+FROM centos:centos6.10 as scim
+COPY --from=scim_base /scim/bin /scim/bin
+COPY --from=scim_base /opt/x86_64/pkgs/vtk/current/ /opt/vtk
+COPY --from=scim_base /opt/x86_64/pkgs/itk/3.20.0/gcc-release/ /opt/itk 
+
+
+# Publisher info
+ARG BUILD_DATE
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="SCIM" \
+      org.label-schema.description="SCIM" \
+      org.label-schema.url="http://quin.med.harvard.edu" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"
+
+
+# Set VTK and ITK dependency paths 
+ENV VTK_INSTALL_DIR=/opt/vtk
+ENV ITK_INSTALL_DIR=/opt/itk
+ENV LD_LIBRARY_PATH=${VTK_INSTALL_DIR}/lib:${ITK_INSTALL_DIR}/lib:${LD_LIBRARY_PATH}
+
+# Add binaries to path 
+ENV PATH=/scim/bin:${PATH}
+
+# User instructions
+ENV msg="\nList of available binaries in /scim/bin\n"
+CMD echo $msg; find /scim/bin/ -type f ; echo $msg
+
+# set work dir 
+WORKDIR /data
