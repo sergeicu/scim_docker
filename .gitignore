@@ -60,4 +60,7 @@ build/
 
 # specific to this repo 
 docker_v1/simple_copy/libs
+docker/archive
+docker/libs
+
 

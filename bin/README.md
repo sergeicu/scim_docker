@@ -1,0 +1,1 @@
+These pre-built binaries should work on centos6 and centos7 OS. Alternatively, use the docker image. 

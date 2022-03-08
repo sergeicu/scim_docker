@@ -1,0 +1,9 @@
+0	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b0_averaged.vtk
+20	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b20_averaged.vtk
+50	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b50_averaged.vtk
+100	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b100_averaged.vtk
+200	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b200_averaged.vtk
+400	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b400_averaged.vtk
+600	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b600_averaged.vtk
+800	/fileserver/external/body/serge/s20210809-ivim-cpp-build/dwi_bootstrap_v1/patient2/b800_averaged.vtk
+
