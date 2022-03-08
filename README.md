@@ -1,6 +1,31 @@
 
+# SCIM 
 
-build basic docker image based on centos6 with simon's tools and compile IVIM code within it. 
+SCIM - an efficient iterative spatially constraint "fusion bootstrap moves" (FBM) solver that enables precise parameter estimates for Intravoxel Incoherent Motion of DWI MRI images. 
+
+### Usage 
+C++ compiled binaries are available prebuiilt as a Docker image. 
+
+Download docker: 
+- TBC 
+
+Download image: 
+- TBC 
+
+Use: 
+- TBC 
+
+Required: 
+- TBC 
+
+### Docker image 
+Image is based on centos6. 
+
+### Docker pull 
+TBC 
+### Docker build 
+
+TBC 
 
 ---------------
 
