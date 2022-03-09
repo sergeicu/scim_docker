@@ -58,34 +58,41 @@ $ ls /scim/bin
 ### Export binaries from docker into local directory 
 
 ```
-version=3T
-name=scim:$version
+# outside docker 
+username=sergeicu
+version=1_5T
+name=$username/scim:$version
 local=~/fs/trash/scim_bin
+rm -rf $local 
+mkdir -p $local
 chmod -R ugo+rw $local
 docker run -it --rm -v $local:/scim_bin $name /bin/bash
-$ ls /scim/bin
-$ cp -R /scim/bin/* /scim_bin
-$ chmod -R ugo+rw /scim_bin
-$ exit
+
+# inside docker 
+ls /scim/bin
+cp -R /scim/bin/* /scim_bin
+chmod -R ugo+rw /scim_bin
+exit
+
+# outside docker 
 cp -R $local/* ../bin/$version
 ```
 
 
 ## Save and load docker image to and from .tar 
 
-*binaries*
+*scim version*
 `docker save scim:3T > scim_3T.tar`
 `docker load < scim_3T.tar`
 
 
-*base*
+*scim_base*
 `docker save scim_base:latest > scim_base_latest.tar`
 `docker load < scim_base_latest.tar`
 
 
 
 ## push all files to google drive 
-
 
 Libs dependencies (necessary for building the full docker image) and the .tar images are uploaded here
 
@@ -96,11 +103,7 @@ https://drive.google.com/drive/folders/1i13o5E9DB0YdX5ZdaGQbfRvOb7d5fDMz?usp=sha
 
 NB we ONLY want to push docker image that does not contain any source code - i.e. `scim:<version>` image and not `scim_base` image. 
 
-WARNING: must change docker tag to include username: 
-
-`username=sergeicu`
-`docker tag scim:3T $username/scim:3T`  
 `docker login` 
-`docker push $username/scim:3T` 
+`docker push $name` 
 
 
