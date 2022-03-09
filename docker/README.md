@@ -14,18 +14,34 @@ SCIM 3T: from experiments we deviced that the average relative noise value in 3T
 
 
 
+
+
 ## How to fetch particular version of SCIM 
 
+*go into scim directory* 
 `cd docker/scim`
-`git branch -a` 
-`git checkout` 
 
+*1.5T - original Moti code* 
+`git switch main `
+`git checkout dd34a018ab22cc62586e15f6e3d22ade40469fa3`
+
+*3Ti - interactive*
+`git switch variance_equals_2`
+`git checkout a783a1a6a1affb53137a99466e465ce7404385b1`
+
+
+*3T - variance hard set to 2* 
+`git switch variance_equals_2`
+`git checkout b1ac18fc8745c9090e41d82fe65193af1f33435f`
+
+NB: 3Ti will unfortunately request noise level to be entered at EVERY iteration of FBM. Further work is required on the code base to make this into a global parameter. 
 
 ### Build docker 
 ```
 name=scim:3T
+name=scim:1_5T
 bch_proxy=http://proxy.tch.harvard.edu:3128
-docker build --build-arg http_proxy=$bch_proxy -t $name -f Dockerfile .
+docker build --no-cache --build-arg http_proxy=$bch_proxy -t $name -f Dockerfile .
 
 ```
 
@@ -78,8 +94,13 @@ https://drive.google.com/drive/folders/1i13o5E9DB0YdX5ZdaGQbfRvOb7d5fDMz?usp=sha
 
 ## Push docker images to dockerhub 
 
-NB we ONLY want to push docker image that does not contain any source code - i.e. `scim` image and not `scim_base` image. 
+NB we ONLY want to push docker image that does not contain any source code - i.e. `scim:<version>` image and not `scim_base` image. 
 
-`docker push scim:3T` 
+WARNING: must change docker tag to include username: 
+
+`username=sergeicu`
+`docker tag scim:3T $username/scim:3T`  
+`docker login` 
+`docker push $username/scim:3T` 
 
 

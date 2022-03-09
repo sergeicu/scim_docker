@@ -1,5 +1,4 @@
-FROM centos6_scim as scim_base
-#FROM scim_base
+FROM scim_base:latest
 
 LABEL maintainer="serge.vasylechko@childrens.harvard.edu"
 LABEL vendor="QUIN"
