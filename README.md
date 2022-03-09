@@ -13,7 +13,17 @@ Download image:
 - TBC 
 
 Use: 
-- TBC 
+
+If using docker: 
+- `docker run sergeicu/scim:$version -it --rm -v $localfolder:/data/ /scim/ivimFBMMRFEstimator <commands>` 
+If using binaries: 
+- `bin/ivimFBMMRFEstimator <commands>` 
+
+Where <commands> are: 
+`--optMode FBM -n $num_of_bvals -i $txt_file -g $num_of_iterations -o $output_directory -m $mask_nrrd`
+
+Please note that `$txt_file` needs to provide relative (or absolute paths): 
+- 
 
 Required: 
 - TBC 
