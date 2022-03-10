@@ -112,4 +112,3 @@ exit
 ## Notes
 - `$txt_file` needs to provide relative or absolute paths
 - `$output_directory` must have at least `664` permissions if using docker (use `chmod` for this) 
-- `version=3.5
