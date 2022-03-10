@@ -102,6 +102,8 @@ $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
 # set permissions 
 chmod -R ugu+rw /data/
 
+# exit docker 
+exit
 
 ```
 
