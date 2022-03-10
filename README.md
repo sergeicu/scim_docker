@@ -1,18 +1,19 @@
 
 # SCIM 
 
-SCIM - an efficient iterative spatially constraint "fusion bootstrap moves" (FBM) solver that enables precise parameter estimates for Intravoxel Incoherent Motion of DWI MRI images. 
+SCIM - an efficient iterative "fusion bootstrap moves" (FBM) solver that enables precise parameter estimates for Intravoxel Incoherent Motion of DWI MRI images in spatially constraint manner.   
 
-### Usage 
-C++ compiled binaries are available prebuiilt as a Docker image. 
+C++ compiled binaries are available prebuiilt as a Docker image. Binaries are also available in `bin` folder and require centOS to be ran. 
 
-Download docker: 
-- TBC 
+Available images on dockerhub: 
+[https://github.com/sergeicu/scim_docker](https://github.com/sergeicu/scim_docker)
+- 1.5T - computes 
+- 3T - 
+- 3Ti - 
 
-Download image: 
-- TBC 
 
-Use: 
+
+How to use: 
 
 If using docker: 
 - `docker run sergeicu/scim:$version -it --rm -v $localfolder:/data/ /scim/ivimFBMMRFEstimator <commands>` 
