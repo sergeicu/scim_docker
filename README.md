@@ -15,35 +15,24 @@ C++ compiled binaries are available prebuiilt as a Docker image. Binaries are al
 - `/fileserver/external/body/serge/scim/docker`
 
 
-How to use: 
+**How to use**
 
-If using docker: 
-- `docker run -it --rm -v $localfolder:/data/ sergeicu/scim:$version /scim/ivimFBMMRFEstimator <commands>`   
+Example with data is given here: [example.md](example.md)
 
-
-If using binaries: 
-- `bin/ivimFBMMRFEstimator <commands>` 
-
-Where: 
-- `<commands>` are `--optMode FBM -n $num_of_bvals -i $txt_file -g $num_of_iterations -o $output_directory -m $mask_nrrd`  
-- `$localfolder` - full path to folder with the data 
-
-Example is given here: [example.md](example.md)
-
-### Docker pull image
+### Dockerhub
 `docker pull sergeicu/scim:$version` 
 
 ### Binaries 
 See [bin/](bin)
 
-### More info 
-Docker image is based on centos6. 
+### Docker image info 
+Docker images are based on centos6. 
 
-To re-build image see [docker/README.md](docker/README.md).   
+Binaries in `bin` folder will run on centOS6+ without docker. 
 
-For C++ code specifics of each version see [changes_to_original_code.md](https://github.com/sergeicu/scim/blob/main/changes_to_original_code.md)
+To build new docker image see [docker/README.md](docker/README.md).   
 
-
+Basic explanations of what changes were made to the original C++ code for versions (1.5T, 3T, 3Ti) see [changes_to_original_code.md](https://github.com/sergeicu/scim/blob/main/changes_to_original_code.md)
 
 
 ---------------
