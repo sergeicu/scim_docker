@@ -61,7 +61,7 @@ n_bvals=8
 g=1 
 
 # run (single command)
-docker run -it --rm -v $PWD:/data/ $image $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
+docker run -it --rm -v $PWD:/data/ $image $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask && chmod -R ugo+rw /data/
 
 ```
 
@@ -112,3 +112,4 @@ exit
 ## Notes
 - `$txt_file` needs to provide relative or absolute paths
 - `$output_directory` must have at least `664` permissions if using docker (use `chmod` for this) 
+- `chmod -R ugo+rw` is necessary command inside docker else you won't be able to delete / move your data
