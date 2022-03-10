@@ -112,4 +112,4 @@ Current version are fetched from these commits / branches:
 `git switch variance_equals_2`
 `git checkout b1ac18fc8745c9090e41d82fe65193af1f33435f`
 
-NB: Current version of 3Ti will unfortunately request noise level to be entered for EVERY iteration of FBM. This is a bug. Further work is required to make this a global parameter. 
+TODO: Current version of 3Ti will unfortunately request noise level to be entered for EVERY iteration of FBM. This is a bug. Further work is required to make this a global parameter. 
