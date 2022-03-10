@@ -82,8 +82,8 @@ There are three distinct versions that we are interested to build:
 - SCIM 1.5T 
    
 Original SCIM relies on estimation of noise from the background of the image.   
-Unfortunately, newer 3T scanner yields images with zeros in the background. Hence we have two options -   
-- 1. Assume certain average value of noise (scim:3T)
+Unfortunately, newer 3T scanner yields images with zeros in the background. Hence we have two options  
+- 1.Assume certain average value of noise (scim:3T)
 - 2.Set noise interactively (scim:3Ti) 
 
 
