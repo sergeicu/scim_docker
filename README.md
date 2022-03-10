@@ -35,7 +35,8 @@ See [bin/](bin)
 ### More info 
 Docker image is based on centos6. 
 
-To re-build image see [docker/README.md](docker/README.md)
+To re-build image see [docker/README.md](docker/README.md).   
+
 For C++ code specifics of each version see [changes_to_original_code.md](https://github.com/sergeicu/scim/blob/main/changes_to_original_code.md)
 
 
