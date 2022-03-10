@@ -34,22 +34,23 @@ $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask
 
 ```
 
-version=1_5T
-docker pull sergieu
-
 cd example_data 
 
-# set binary 
-binary=../bin/1_5T/ivimFBMMRFEstimator
+# pull docker image
+version=1_5T
+docker push sergeicu/scim:$version
+
+# set binary
+binary=/scim/ivimFBMMRFEstimator
 
 # set data paths 
-txt_file=bvalsFileNames_average_local.txt
+txt_file=/data/bvalsFileNames_average_docker.txt
 
 # set mask path 
-mask=mask_slice.nrrd
+mask=/data/mask_slice.nrrd
 
 # set output directory 
-outdir=$PWD/test1/ && rm -rf $outdir && mkdir -p $outdir
+outdir=test1 && rm -rf $outdir && mkdir -p $outdir && chmod ugo+rw $outdir
 
 # set number of bvals 
 n_bvals=8
@@ -58,13 +59,14 @@ n_bvals=8
 g=1 
 
 # run 
-$binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask
+docker run -it --rm -v $outdir:/data/ $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
 
 
 ```
 
 
 
-In more details: 
-- `$txt_file` needs to provide relative (or absolute paths) 
-- `$output_directory` needs to have chmod 664 permissions at least if using docker 
+## Notes
+- `$txt_file` needs to provide relative or absolute paths
+- `$output_directory` must have at least `664` permissions if using docker (use `chmod` for this) 
+- `version=3.5
