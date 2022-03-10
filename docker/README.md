@@ -80,11 +80,12 @@ There are three distinct versions that we are interested to build:
 - SCIM 3T 
 - SCIM 3Ti (interactive)
 - SCIM 1.5T 
+   
+Original SCIM relies on estimation of noise from the background of the image.   
+Unfortunately, newer 3T scanner yields images with zeros in the background. Hence we have two options -   
+- 1. Assume certain average value of noise (scim:3T)
+- 2.Set noise interactively (scim:3Ti) 
 
-Original SCIM relies on estimation of noise from the background of the image. 
-Unfortunately, newer 3T scanner yields images with zeros in the background. Hence we have two options - 
-1. Assume certain average value of noise (scim:3T)
-2.Set noise interactively (scim:3Ti) 
 
 From empirical experiments on 3T prisma scanner, we devices that for current protocol the noise is ~`2`. Hence, scim:3T version has fixed noise of `2` 
 
@@ -97,17 +98,20 @@ Different branches and commits in this repository correspond to different versio
 Current version are fetched from these commits / branches: 
 
 
-*go into scim/ directory* 
-`cd docker/scim`
-
-*1.5T - original code* 
-`git switch 1_5T `
-
-*3Ti - interactive*
-`git switch 3Ti`
+*go into scim/ directory*   
+`cd docker/scim`   
 
 
-*3T - variance hard set to 2* 
-`git switch 3T`
+*1.5T - original code*    
+`git switch 1_5T `   
+
+
+*3Ti - interactive*   
+`git switch 3Ti`   
+
+
+*3T - variance hard set to 2*    
+`git switch 3T`  
+
 
 TODO: Current version of 3Ti will unfortunately request noise level to be entered for EVERY iteration of FBM. This is a bug. Further work is required to make this a global parameter. 
