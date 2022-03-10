@@ -1,4 +1,3 @@
-
 # SCIM 
 
 SCIM - an efficient iterative "fusion bootstrap moves" (FBM) solver that enables precise parameter estimates for Intravoxel Incoherent Motion of DWI MRI images in spatially constraint manner.   
@@ -7,36 +6,42 @@ C++ compiled binaries are available prebuiilt as a Docker image. Binaries are al
 
 Available images on dockerhub: 
 [https://github.com/sergeicu/scim_docker](https://github.com/sergeicu/scim_docker)
-- 1.5T - computes 
-- 3T - 
-- 3Ti - 
-
+- 1.5T - computes IVIM via MLE cost function, with noise estimated from background regions 
+- 3T - // with noise fixed at 2 
+- 3Ti - // with noise input defined by user (NB this needs to be specified for every FBM iteration) 
 
 
 How to use: 
 
 If using docker: 
-- `docker run sergeicu/scim:$version -it --rm -v $localfolder:/data/ /scim/ivimFBMMRFEstimator <commands>` 
+- `docker run -it --rm -v $localfolder:/data/ sergeicu/scim:$version /scim/ivimFBMMRFEstimator <commands>` 
 If using binaries: 
 - `bin/ivimFBMMRFEstimator <commands>` 
 
-Where <commands> are: 
-`--optMode FBM -n $num_of_bvals -i $txt_file -g $num_of_iterations -o $output_directory -m $mask_nrrd`
+Where: 
+- `<commands>` are `--optMode FBM -n $num_of_bvals -i $txt_file -g $num_of_iterations -o $output_directory -m $mask_nrrd`  
+- `$localfolder` - full path to folder with the data 
 
-Please note that `$txt_file` needs to provide relative (or absolute paths): 
-- 
+In more details: 
+- `$txt_file` needs to provide relative (or absolute paths) 
+- `$output_directory` needs to have chmod 664 permissions at least if using docker 
 
-Required: 
-- TBC 
+Example is given here: [example.sh](example.sh)
 
-### Docker image 
-Image is based on centos6. 
+### Docker pull image
+`docker pull sergeicu/scim:$version` 
 
-### Docker pull 
-TBC 
-### Docker build 
+### Binaries 
+See [bin/](bin)
 
-TBC 
+### More info 
+Docker image is based on centos6. 
+
+To re-build image see [docker/README.md](docker/README.md)
+For C++ code specifics of each version see [changes_to_original_code.md](https://github.com/sergeicu/scim/blob/main/changes_to_original_code.md)
+
+
+
 
 ---------------
 
