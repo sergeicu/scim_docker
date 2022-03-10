@@ -24,7 +24,7 @@ Where:
 - `<commands>` are `--optMode FBM -n $num_of_bvals -i $txt_file -g $num_of_iterations -o $output_directory -m $mask_nrrd`  
 - `$localfolder` - full path to folder with the data 
 
-Example is given here: [example.sh](example.sh)
+Example is given here: [example.md](example.md)
 
 ### Docker pull image
 `docker pull sergeicu/scim:$version` 
