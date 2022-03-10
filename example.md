@@ -50,7 +50,7 @@ txt_file=/data/bvalsFileNames_average_docker.txt
 mask=/data/mask_slice.nrrd
 
 # set output directory 
-outdir=test1 && rm -rf $outdir && mkdir -p $outdir && chmod ugo+rw $outdir
+outdir=test2 && rm -rf $outdir && mkdir -p $outdir && chmod ugo+rw $outdir
 
 # set number of bvals 
 n_bvals=8
