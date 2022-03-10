@@ -1,52 +1,17 @@
-## Versions of SCIM 
-
-There are three distinct versions that we are interested to build: 
-- SCIM 3T 
-- SCIM 3Ti (interactive)
-- SCIM 1.5T 
-
-Explanation:  
-Original SCIM relies on estimation of noise from the background of the image, which was available on 1.5T data. Newer scanner, 3T, yields images with zeros in the background. Hence we have two options - 1. Assume certain average value of noise 2. Set b-value interactively. 
-
-
-SCIM 3T: from experiments we deviced that the average relative noise value in 3T data was 2.   
-
-
-
-
-
-
-## How to fetch particular version of SCIM 
-
-*go into scim directory* 
-`cd docker/scim`
-
-*1.5T - original Moti code* 
-`git switch main `
-`git checkout dd34a018ab22cc62586e15f6e3d22ade40469fa3`
-
-*3Ti - interactive*
-`git switch variance_equals_2`
-`git checkout a783a1a6a1affb53137a99466e465ce7404385b1`
-
-
-*3T - variance hard set to 2* 
-`git switch variance_equals_2`
-`git checkout b1ac18fc8745c9090e41d82fe65193af1f33435f`
-
-NB: 3Ti will unfortunately request noise level to be entered at EVERY iteration of FBM. Further work is required on the code base to make this into a global parameter. 
-
 ### Build docker 
 ```
-name=scim:3T
-name=scim:1_5T
+version=3T
+username=sergeicu
+name=sergeicu/scim:$version
 bch_proxy=http://proxy.tch.harvard.edu:3128
 docker build --no-cache --build-arg http_proxy=$bch_proxy -t $name -f Dockerfile .
 
 ```
 
 
-### Run docker interactively
+### Run docker interactively 
+
+If you need to check the files for any reason
 
 ```
 name=scim:3T
@@ -57,36 +22,37 @@ $ ls /scim/bin
 
 ### Export binaries from docker into local directory 
 
+This is how we made the binaries available in [bin](https://github.com/sergeicu/scim_docker/tree/main/bin) folder
+
 ```
-# outside docker 
+# on your local machine Terminal
 username=sergeicu
 version=1_5T
 name=$username/scim:$version
-local=~/fs/trash/scim_bin
+localfolder=<local_folder_to_place_binaries>
 rm -rf $local 
 mkdir -p $local
 chmod -R ugo+rw $local
-docker run -it --rm -v $local:/scim_bin $name /bin/bash
+docker run -it --rm -v $localfolder:/scim_bin $name /bin/bash
 
-# inside docker 
+# run these commands inside docker container
 ls /scim/bin
 cp -R /scim/bin/* /scim_bin
 chmod -R ugo+rw /scim_bin
 exit
 
-# outside docker 
-cp -R $local/* ../bin/$version
 ```
 
 
-## Save and load docker image to and from .tar 
+## Save and load docker imagew to and from .tar 
 
 *scim version*
 `docker save scim:3T > scim_3T.tar`
 `docker load < scim_3T.tar`
 
 
-*scim_base*
+*scim_base* 
+This is an image that contains centos6 with docker dependencies. No SCIM source code. 
 `docker save scim_base:latest > scim_base_latest.tar`
 `docker load < scim_base_latest.tar`
 
@@ -94,16 +60,53 @@ cp -R $local/* ../bin/$version
 
 ## push all files to google drive 
 
-Libs dependencies (necessary for building the full docker image) and the .tar images are uploaded here
+`libs` folder (referenced in Dockerfile) contains dependencies for compiling scim. 
+These are not shared on github as their size is very large. Instead, we made these available in .tar [here](https://drive.google.com/drive/folders/1i13o5E9DB0YdX5ZdaGQbfRvOb7d5fDMz?usp=sharing) (warning: only bch users with access) and `/fileserver/external/body/serge/scim/docker`
 
-https://drive.google.com/drive/folders/1i13o5E9DB0YdX5ZdaGQbfRvOb7d5fDMz?usp=sharing
-(warning: only bch users with access)
 
 ## Push docker images to dockerhub 
-
-NB we ONLY want to push docker image that does not contain any source code - i.e. `scim:<version>` image and not `scim_base` image. 
+NB we ONLY push docker images that do not contain any source code
 
 `docker login` 
 `docker push $name` 
 
 
+## About different versions of SCIM 
+
+There are three distinct versions that we are interested to build: 
+- SCIM 3T 
+- SCIM 3Ti (interactive)
+- SCIM 1.5T 
+
+Original SCIM relies on estimation of noise from the background of the image. 
+Unfortunately, newer 3T scanner yields images with zeros in the background. Hence we have two options - 
+1. Assume certain average value of noise (scim:3T)
+2.Set noise interactively (scim:3Ti) 
+
+From empirical experiments on 3T prisma scanner, we devices that for current protocol the noise is ~`2`. Hence, scim:3T version has fixed noise of `2` 
+
+## How to fetch particular version of SCIM (warning: may be updated later) 
+
+Our scim code is available in a separate repository, which is linked here as a submodule. 
+https://github.com/sergeicu/scim/branches   
+
+Different branches and commits in this repository correspond to different version of the code that we had build.   
+Current version are fetched from these commits / branches: 
+
+
+*go into scim/ directory* 
+`cd docker/scim`
+
+*1.5T - original code* 
+`git switch main `
+`git checkout dd34a018ab22cc62586e15f6e3d22ade40469fa3`
+
+*3Ti - interactive*
+`git switch variance_equals_2`
+`git checkout a783a1a6a1affb53137a99466e465ce7404385b1`
+
+*3T - variance hard set to 2* 
+`git switch variance_equals_2`
+`git checkout b1ac18fc8745c9090e41d82fe65193af1f33435f`
+
+NB: Current version of 3Ti will unfortunately request noise level to be entered for EVERY iteration of FBM. This is a bug. Further work is required to make this a global parameter. 
