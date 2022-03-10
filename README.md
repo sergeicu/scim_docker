@@ -4,11 +4,15 @@ SCIM - an efficient iterative "fusion bootstrap moves" (FBM) solver that enables
 
 C++ compiled binaries are available prebuiilt as a Docker image. Binaries are also available in `bin` folder and require centOS to be ran. 
 
-Available images on dockerhub: 
-[https://github.com/sergeicu/scim_docker](https://github.com/sergeicu/scim_docker)
+**Available images**: 
 - 1.5T - computes IVIM via MLE cost function, with noise estimated from background regions 
 - 3T - // with noise fixed at 2 
 - 3Ti - // with noise input defined by user (NB this needs to be specified for every FBM iteration) 
+
+**Images are available from**
+- [dockerhub](https://hub.docker.com/r/sergeicu/scim/tags)
+- [BCH google drive](https://drive.google.com/drive/folders/1i13o5E9DB0YdX5ZdaGQbfRvOb7d5fDMz?usp=sharing)  (warning: only bch users with access)
+- `/fileserver/external/body/serge/scim/docker`
 
 
 How to use: 
