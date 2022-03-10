@@ -14,7 +14,7 @@ Available images on dockerhub:
 How to use: 
 
 If using docker: 
-- `docker run -it --rm -v $localfolder:/data/ sergeicu/scim:$version /scim/ivimFBMMRFEstimator <commands>` 
+- `docker run -it --rm -v $localfolder:/data/ sergeicu/scim:$version /scim/ivimFBMMRFEstimator <commands>`   
 If using binaries: 
 - `bin/ivimFBMMRFEstimator <commands>` 
 
