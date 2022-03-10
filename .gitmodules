@@ -1,0 +1,3 @@
+[submodule "docker/scim"]
+	path = docker/scim
+	url = https://github.com/sergeicu/scim
