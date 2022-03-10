@@ -70,8 +70,8 @@ These are not shared on github as their size is very large. Instead, we made the
 ## Push docker images to dockerhub 
 NB we ONLY push docker images that do not contain any source code
 
-`docker login` 
-`docker push $name` 
+`docker login`   
+`docker push $name`   
 
 
 ## About different versions of SCIM 
