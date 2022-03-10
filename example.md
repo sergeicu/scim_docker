@@ -32,6 +32,7 @@ $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask
 
 ## Using docker 
 
+### In the terminal 
 ```
 
 cd example_data 
@@ -39,7 +40,7 @@ cd example_data
 # pull docker image
 version=1_5T
 image=sergeicu/scim:$version
-docker push $image
+docker pull $image
 
 # set binary
 binary=/scim/bin/ivimFBMMRFEstimator
@@ -59,8 +60,47 @@ n_bvals=8
 # number of FBM iterations (0 for IVIM, 400 for SCIM, 1 for toy example of SCIM) 
 g=1 
 
-# run 
+# run (single command)
 docker run -it --rm -v $PWD:/data/ $image $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
+
+```
+
+### Inside docker 
+```
+
+cd example_data 
+
+# pull docker image
+version=1_5T
+image=sergeicu/scim:$version
+docker pull $image
+
+# enter docker 
+docker run -it --rm -v $PWD:/data/ $image /bin/bash 
+
+# set binary
+binary=/scim/bin/ivimFBMMRFEstimator
+
+# set data paths 
+txt_file=/data/bvalsFileNames_average_docker.txt
+
+# set mask path 
+mask=/data/mask_slice.nrrd
+
+# set output directory 
+outdir=test2 && rm -rf /data/$outdir && mkdir -p /data/$outdir && chmod ugo+rw /data/$outdir
+
+# set number of bvals 
+n_bvals=8
+
+# number of FBM iterations (0 for IVIM, 400 for SCIM, 1 for toy example of SCIM) 
+g=1 
+
+# run 
+$binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
+
+# set permissions 
+chmod -R ugu+rw /data/
 
 
 ```
