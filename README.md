@@ -24,10 +24,6 @@ Where:
 - `<commands>` are `--optMode FBM -n $num_of_bvals -i $txt_file -g $num_of_iterations -o $output_directory -m $mask_nrrd`  
 - `$localfolder` - full path to folder with the data 
 
-In more details: 
-- `$txt_file` needs to provide relative (or absolute paths) 
-- `$output_directory` needs to have chmod 664 permissions at least if using docker 
-
 Example is given here: [example.sh](example.sh)
 
 ### Docker pull image
