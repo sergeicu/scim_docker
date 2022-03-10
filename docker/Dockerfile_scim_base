@@ -1,3 +1,6 @@
+# This image contains a base centos6 image, with all the required dependencies that are necessary to build scim code. 
+# ~ 3.5Gb 
+
 FROM centos:centos6.10 AS scim_base
 
 LABEL maintainer="serge.vasylechko@childrens.harvard.edu"
