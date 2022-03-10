@@ -1,14 +1,14 @@
 ### Build / fetch scim_base image
 
-You need to  obtain a base image before building the scim docker.   
+You need to  obtain a base image before building the scim docker.     
 This base image contains centos6, as well as all the necessary dependencies for building scim code. 
 
-You can fetch this image here: 
-`docker pull sergeicu/scim_base:latest` 
-or here 
-`docker image load < /fileserver/external/body/serge/scim/docker/scim_base_latest.tar`
+You can fetch this image here:   
+`docker pull sergeicu/scim_base:latest`   
+or here   
+`docker image load < /fileserver/external/body/serge/scim/docker/scim_base_latest.tar`  
 
-Alternatively, you can build the image from scratch (~1-2hours): 
+Alternatively, you can build the image from scratch (~1-2hours):   
 
 ```
 username=sergeicu
