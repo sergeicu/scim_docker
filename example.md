@@ -38,10 +38,11 @@ cd example_data
 
 # pull docker image
 version=1_5T
-docker push sergeicu/scim:$version
+image=sergeicu/scim:$version
+docker push $image
 
 # set binary
-binary=/scim/ivimFBMMRFEstimator
+binary=/scim/bin/ivimFBMMRFEstimator
 
 # set data paths 
 txt_file=/data/bvalsFileNames_average_docker.txt
@@ -59,7 +60,7 @@ n_bvals=8
 g=1 
 
 # run 
-docker run -it --rm -v $outdir:/data/ $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
+docker run -it --rm -v $PWD:/data/ $image $binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o /data/$outdir -m $mask
 
 
 ```
