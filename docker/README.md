@@ -101,15 +101,13 @@ Current version are fetched from these commits / branches:
 `cd docker/scim`
 
 *1.5T - original code* 
-`git switch main `
-`git checkout dd34a018ab22cc62586e15f6e3d22ade40469fa3`
+`git switch 1_5T `
 
 *3Ti - interactive*
-`git switch variance_equals_2`
-`git checkout a783a1a6a1affb53137a99466e465ce7404385b1`
+`git switch 3Ti`
+
 
 *3T - variance hard set to 2* 
-`git switch variance_equals_2`
-`git checkout b1ac18fc8745c9090e41d82fe65193af1f33435f`
+`git switch 3T`
 
 TODO: Current version of 3Ti will unfortunately request noise level to be entered for EVERY iteration of FBM. This is a bug. Further work is required to make this a global parameter. 
