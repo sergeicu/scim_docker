@@ -1,4 +1,27 @@
-### Build docker 
+### Build / fetch scim_base image
+
+You need to  obtain a base image before building the scim docker.   
+This base image contains centos6, as well as all the necessary dependencies for building scim code. 
+
+You can fetch this image here: 
+`docker pull sergeicu/scim_base:latest` 
+or here 
+`docker image load < /fileserver/external/body/serge/scim/docker/scim_base_latest.tar`
+
+Alternatively, you can build the image from scratch (~1-2hours): 
+
+```
+username=sergeicu
+name=sergeicu/scim_base:latest
+bch_proxy=http://proxy.tch.harvard.edu:3128
+docker build --no-cache --build-arg http_proxy=$bch_proxy -t $name -f Dockerfile_scim_base .
+
+```
+
+Note: `scim_base` does not contain any scim source code.   
+Note2: `scim_base` requires `libs` folder to be present in local directory. Download it first from [BCH Google Drive](https://drive.google.com/drive/folders/1i13o5E9DB0YdX5ZdaGQbfRvOb7d5fDMz?usp=sharing) or from `/fileserver/external/body/serge/scim/docker`
+
+### Build scim docker image
 ```
 version=3T
 username=sergeicu
@@ -8,19 +31,7 @@ docker build --no-cache --build-arg http_proxy=$bch_proxy -t $name -f Dockerfile
 
 ```
 
-
-### Run docker interactively 
-
-If you need to check the files for any reason
-
-```
-name=scim:3T
-docker run -it --rm $name /bin/bash
-$ ls /scim/bin
-```
-
-
-### Export binaries from docker into local directory 
+### Export scim binaries locally
 
 This is how we made the binaries available in [bin](https://github.com/sergeicu/scim_docker/tree/main/bin) folder
 
@@ -44,18 +55,10 @@ exit
 ```
 
 
-## Save and load docker imagew to and from .tar 
+## Save and load docker images to and from .tar 
 
-*scim version*
 `docker save scim:3T > scim_3T.tar`
 `docker load < scim_3T.tar`
-
-
-*scim_base* 
-This is an image that contains centos6 with docker dependencies. No SCIM source code. 
-`docker save scim_base:latest > scim_base_latest.tar`
-`docker load < scim_base_latest.tar`
-
 
 
 ## push all files to google drive 
