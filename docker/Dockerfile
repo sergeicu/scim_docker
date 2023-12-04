@@ -1,4 +1,4 @@
-FROM scim_base:latest
+FROM sergeicu/scim_base:latest as scim_base
 
 LABEL maintainer="serge.vasylechko@childrens.harvard.edu"
 LABEL vendor="QUIN"
