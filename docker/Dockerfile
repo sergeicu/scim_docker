@@ -1,4 +1,4 @@
-FROM scim_base:latest
+FROM sergeicu/scim_base:latest as scim_base
 
 LABEL maintainer="serge.vasylechko@childrens.harvard.edu"
 LABEL vendor="QUIN"
@@ -11,7 +11,7 @@ LABEL vendor="QUIN"
 # add scim code 
 RUN mkdir -p /scim
 COPY ./scim /scim
-
+COPY ./scim/nlopt-2.2 /home/ch155417/moti/nlopt-2.2
 
 ###############
 # Compile scim
@@ -41,7 +41,7 @@ RUN rm -rf /scim/build && mkdir -p /scim/build && cd /scim/build && \
     -DTCLAP_INCLUDE_DIR:PATH=$TCLAP_INCLUDE_DIR \
     -DitkNLOPTOptimizersLib:PATH=$itkNLOPTOptimizersLib \
     -DVTK_DIR:PATH="${VTK_DIR}" .. && \
-    make -j 4 && make install 
+    make -j 4 && make install
 
 ###############
 # Compress the image
