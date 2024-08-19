@@ -1,13 +1,10 @@
 ## Using binaries 
 
-NB: this will only work on centOS
+NB: this will definitely work on centOS, and possibly some version of ubuntu (no guarantee)
 
 ```
 
 cd example_data 
-
-# set binary 
-binary=../bin/3Ti/ivimFBMMRFEstimator
 
 # set data paths 
 txt_file=bvalsFileNames_average_local.txt
@@ -27,10 +24,11 @@ g=1
 # set variance (if running 3Ti model) -> see this for more details -> https://chatgpt.com/share/7b80279b-14eb-4948-8342-24a58b1b6338
 variance=2
 
-# run 
-$binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask -v $variance 
+# run SCIM 
+./ivimFBMMRFEstimator --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask -v $variance 
 
-
+# run SCIM with bootstrap (i.e. slightly disturbed signal and compute N version of this code)
+./ivimFBMinvivoSE --numOfGDIters 1 --bootstrapIterations 3 --bValuesNum 8 --threshold -1 -i bvalsFileNames_average_local.txt -o $PWD/test1/ -m mask_slice.nrrd --variance 10 
 ```
 
 ## Using docker 
