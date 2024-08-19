@@ -39,7 +39,7 @@ variance=2
 cd example_data 
 
 # pull docker image
-version=1_5T
+version=3Ti
 image=sergeicu/scim:$version
 docker pull $image
 
