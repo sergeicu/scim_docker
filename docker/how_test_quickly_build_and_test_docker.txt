@@ -1,0 +1,23 @@
+# How to make changes in this docker file and test them 
+
+# make changes to code in files here: 
+cd /home/ch215616/w/code/ivim/experiments/s20231204_docker_compile_scim/scim_docker/docker/scim 
+git pull origin # or git clone git@github.com:sergeicu/scim.git
+
+# build docker 
+cd /home/ch215616/w/code/ivim/experiments/s20231204_docker_compile_scim/scim_docker/docker/
+version=3Ti
+username=sergeicu
+name=sergeicu/scim:$version
+bch_proxy=http://proxy.tch.harvard.edu:3128
+docker build --build-arg http_proxy=$bch_proxy -t $name -f Dockerfile .
+
+# copy binaries from docker 
+cd /home/ch215616/w/code/ivim/experiments/s20231204_docker_compile_scim/scim_docker/example_data
+docker run -it --rm -v $PWD:/data sergeicu/scim:3Ti /bin/bash
+    # inside docker 
+    cp /scim/bin/ivimFBMMRFEstimator /scim/bin/ivimFBMinvivoSE /data
+
+# run on example data 
+./ivimFBMMRFEstimator --optMode FBM -n 8 -i bvalsFileNames_average_local.txt -g 1 -o $PWD/test1/ -m mask_slice.nrrd -v 10
+./ivimFBMinvivoSE --bValuesNum 8 --threshold -1 -i bvalsFileNames_average_local.txt -o $PWD/test1/ -m mask_slice.nrrd -v 10

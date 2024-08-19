@@ -7,7 +7,7 @@ NB: this will only work on centOS
 cd example_data 
 
 # set binary 
-binary=../bin/1_5T/ivimFBMMRFEstimator
+binary=../bin/3Ti/ivimFBMMRFEstimator
 
 # set data paths 
 txt_file=bvalsFileNames_average_local.txt
@@ -24,8 +24,11 @@ n_bvals=8
 # number of FBM iterations (0 for IVIM, 400 for SCIM, 1 for toy example of SCIM) 
 g=1 
 
+# set variance (if running 3Ti model) -> see this for more details -> https://chatgpt.com/share/7b80279b-14eb-4948-8342-24a58b1b6338
+variance=2
+
 # run 
-$binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask
+$binary --optMode FBM -n $n_bvals -i  $txt_file -g $g -o $outdir -m $mask -v $variance 
 
 
 ```
