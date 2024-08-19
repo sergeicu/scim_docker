@@ -39,7 +39,7 @@ Important: please read additional information about which scim source code commi
 
 
 ```
-version=3T
+version=3Ti
 username=sergeicu
 name=sergeicu/scim:$version
 bch_proxy=http://proxy.tch.harvard.edu:3128
@@ -96,12 +96,12 @@ NB we ONLY push docker images that do not contain any source code
 
 There are three distinct versions that we are interested to build: 
 - SCIM 3T 
-- SCIM 3Ti (interactive)
+- SCIM 3Ti (interactive) -> set the variance manually 
 - SCIM 1.5T 
    
 Original SCIM relies on estimation of noise from the background of the image.   
 Unfortunately, newer 3T scanner yields images with zeros in the background. Hence we have two options  
-- 1. Assume certain average value of noise (scim:3T)
+- 1. Assume constant average value of noise to 2.0  (scim:3T)
 - 2. Set noise interactively (scim:3Ti) 
 
 
